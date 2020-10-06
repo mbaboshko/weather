@@ -26,8 +26,15 @@ export const alert = options => dispatch => {
 // Weather actions
 
 export const addCity = weather => ({ type: ADDED_CITY, payload: weather })
-export const addCities = cities => ({ type: CITIES_LOADED, payload: cities })
 export const deleteCity = id => ({ type: DELETED_CITY, payload: id })
+
+export const addCities = cities => (dispatch, getState) => {
+  const { weather } = getState()
+
+  if (weather.cities.length === 0) {
+    dispatch({ type: CITIES_LOADED, payload: cities })
+  }
+}
 
 export const fetchWeather = () => async (dispatch, getState) => {
   try {
